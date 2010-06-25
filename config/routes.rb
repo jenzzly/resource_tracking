@@ -8,7 +8,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :model_helps, :active_scaffold => true 
   map.resources :organization, :active_scaffold => true
   map.resources :funding_flow, :active_scaffold => true
-
+   map.root :controller => 'projects'
+  map.resources :users
+  map.login 'login', :controller => 'user_sessions', :action => 'new'  
+  map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'  
+  map.resources :user_sessions  
   
   # The priority is based upon order of creation: first created -> highest priority.
 
