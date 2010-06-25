@@ -1,4 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :activity, :active_scaffold => true
+  map.resources :indicator, :active_scaffold => true 
+  map.resources :line_item, :active_scaffold => true 
+  map.resources :project, :active_scaffold => true 
+  map.resources :comments, :active_scaffold => true 
+  map.resources :field_helps, :active_scaffold => true 
+  map.resources :model_helps, :active_scaffold => true 
+  map.resources :organization, :active_scaffold => true
+  map.resources :funding_flow, :active_scaffold => true
+
+  # DRY up the static page controller
+  map.root :controller => 'static_page' #a replacement for public/index.html
+  map.static_page ':page', :controller => 'static_page', :action => 'show', :page => Regexp.new(StaticPageController::PAGES.join('|'))
+  
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

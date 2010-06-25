@@ -3,7 +3,11 @@
 
 == For Developers
 
+<<<<<<< HEAD
 Currently getting an alpha / minimum viable product done. This should be fairly easy, it's mostly CRUD. After that, we can better focus on working with the local development team. UI work is going on in branch add_active_scaffold so we can easily do another UI less dependent on active scaffold, if that makes sense.
+=======
+Currently getting an alpha / minimum viable product done. This should be fairly easy, it's mostly CRUD. After that, we can better focus on working with the local development team.
+>>>>>>> e318bfe8be8987470eef816a9ae36b94ecd68505
 
 Most helpful feature to work on would be a tree interface for selecting codes for a project/activity/line item, along with fields to enter amounts or %'s for that code. No work has been done on that as of yet.
 
@@ -29,7 +33,11 @@ Tracker should be public at this point. Click the "Join Project" button after vi
 
 Let Greg know if you're available to do some pairing/mentoring! Mega bonus points.
 
+<<<<<<< HEAD
 More info on collaborating with local Rwandan team can be got by emailing gregory_nelson@abtassoc.com.
+=======
+More info on collaborating with local team can be got by emailing gregory_nelson@abtassoc.com.
+>>>>>>> e318bfe8be8987470eef816a9ae36b94ecd68505
 
 === Getting Started
 Please fork and clone the git repository.
@@ -37,7 +45,10 @@ Then install rvm using the instructions below. We use rvm to standardize the Rub
 
 * install RVM if not already installed, see http://rvm.beginrescueend.com/rvm/install/ . Google / ask Greg if you have trouble.
 * cd resource_tracking
+<<<<<<< HEAD
 * git checkout add_active_scaffold
+=======
+>>>>>>> e318bfe8be8987470eef816a9ae36b94ecd68505
 * rvm install ree
 * rvm ree-1.8.7-2010.02
 
