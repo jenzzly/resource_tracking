@@ -1,4 +1,7 @@
 class ProjectsController < ApplicationController
+
+  before_filter :require_user	
+
   @@shown_columns = [:name, :description,  :expected_total]
   @@create_columns = [:name, :description,  :expected_total, :locations]
   

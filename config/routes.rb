@@ -12,7 +12,11 @@ ActionController::Routing::Routes.draw do |map|
   # DRY up the static page controller
   map.root :controller => 'static_page' #a replacement for public/index.html
   map.static_page ':page', :controller => 'static_page', :action => 'show', :page => Regexp.new(StaticPageController::PAGES.join('|'))
-  
+  map.resources :users
+  map.login 'login', :controller => 'user_sessions', :action => 'new'  
+  map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'  
+  map.resources :user_sessions  
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
