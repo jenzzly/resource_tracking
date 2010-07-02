@@ -6,14 +6,28 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :comments, :active_scaffold => true 
   map.resources :field_helps, :active_scaffold => true 
   map.resources :model_helps, :active_scaffold => true 
-  map.resources :organization, :active_scaffold => true
+  map.resources :organization, :collection => {:browse => :get}, :active_scaffold => true
   map.resources :funding_flow, :active_scaffold => true
+<<<<<<< HEAD
    map.root :controller => 'projects'
   map.resources :users
   map.login 'login', :controller => 'user_sessions', :action => 'new'  
   map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'  
   map.resources :user_sessions  
   
+=======
+
+  #ugly manual paths
+  map.funding_sources_data_entry "funding_sources", :controller => 'funding_flows', :action => 'funding_sources'
+  map.providers_data_entry "providers", :controller => 'funding_flows', :action => 'providers'
+
+  map.page_comments "page_comments/:id", :controller => 'comments', :action => 'index', :type => 'ModelHelp'
+
+  # DRY up the static page controller
+  map.root :controller => 'static_page' #a replacement for public/index.html
+  map.static_page ':page', :controller => 'static_page', :action => 'show', :page => Regexp.new(StaticPageController::PAGES.join('|'))
+  map.ngo_dashboard 'ngo_dashboard', :controller => 'static_page', :action => 'show', :page => 'ngo_dashboard'
+>>>>>>> d02fe9c8d00fe5e72b9da67579d0cba48d5f4627
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

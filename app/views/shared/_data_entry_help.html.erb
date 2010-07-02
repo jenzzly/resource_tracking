@@ -2,7 +2,8 @@
 
 <% if model_help %>
   <% content_for :left_side_bar do %>
-    <h4 class="help_title">Help</h4>
+    <script>$('left_side_bar').show();</script>
+    <span class="help_title">Help</span>
     <p><%= link_to 'Field Definitions', '#',  :onclick => "$('terms').toggle();"  %></p>
       <div id="terms">
         <script> $('terms').hide(); </script>
@@ -14,7 +15,7 @@
         <%= link_to 'HIV/AIDS', '#' %>
         <%= link_to 'Health Systems', '#' %>
         <%= link_to 'Technical Assistance', '#' %>
-        <%= link_to '...', '#' %>
+        <%= link_to '...', '#' %> <!-- TODO implement examples as example user owned items-->
       </div>
       
     
@@ -28,9 +29,9 @@
   <% end %>
 
   <% content_for :comments do %>
-    <h3> General Questions / Comments  <!-- TODO fix add link / make ajax form maybe -->
-      (<%= link_to "add", "/model_helps/#{model_help.id}/comments", :popup => true %>)
+    <h3> General Questions / Comments 
     </h3>
-    <%= render :partial => model_help.comments %>
+    <%= render :active_scaffold => "comments", :label => "&nbsp",
+      :constraints => {:commentable_id => model_help.id, :commentable_type => "ModelHelp"} %>
   <% end %>
 <% end %>
