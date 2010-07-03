@@ -1,24 +1,40 @@
-<% form_for @user do |form| %>  
-<%= form.error_messages %>  
-<ol class="formList">  
-  <li>  
-    <%= form.label :username, "Username" %>  
-    <%= form.text_field :username %>  
-  </li>  
-  <li>  
-    <%= form.label :email, "Email" %>  
-    <%= form.text_field :email %>  
-  </li>  
-  <li>  
-    <%= form.label :password, "Password" %>  
-    <%= form.password_field :password %>  
-  </li>  
-  <li>  
-    <%= form.label :password_confirmation, "Password confirmation" %>  
-    <%= form.password_field :password_confirmation %>  
-  </li>  
-  <li>  
-    <%= form.submit "Submit" %>  
-  </li>  
-</ol>  
-<% end %>  
+<% form_for @user do |form| %>
+<%= form.error_messages %>
+<table style="text-align: left; width: 20%;" border="0" cellpadding="2"
+cellspacing="2">
+<tbody>
+<tr>
+<td style="vertical-align: top;"><%= form.label :username, "Username" %>
+</td>
+<td style="vertical-align: top;"> <%= form.text_field :username %>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><%= form.label :email, "Email" %>
+</td>
+<td style="vertical-align: top;"><%= form.text_field :email %>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><%= form.label :password, "Password" %>
+</td>
+<td style="vertical-align: top;"> <%= form.password_field :password %>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><%= form.label :password_confirmation, "Password confirmation" %>
+</td>
+<td style="vertical-align: top;"> <%= form.password_field :password_confirmation %>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;">&nbsp;
+</td>
+<td style="vertical-align: top;" align="center"> <%= form.submit "Submit" %>
+</td>
+</tr>
+</tbody>
+</table>
+
+<% end %>
+

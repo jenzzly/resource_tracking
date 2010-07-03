@@ -1,0 +1,48 @@
+
+<h2>Home page</h2>
+<div id="TabbedPanels1" class="TabbedPanels">
+      <ul class="TabbedPanelsTabGroup">
+        <li class="TabbedPanelsTab" tabindex="0">Activities</li>
+        <li class="TabbedPanelsTab" tabindex="0">Projects</li>
+        <li class="TabbedPanelsTab" tabindex="0">Funding Flows</li>
+        <li class="TabbedPanelsTab" tabindex="0">Review and Submit</li></ul>
+
+ <div class="TabbedPanelsContentGroup">
+        <div class="TabbedPanelsContent">
+
+<%= render :partial => 'shared/data_entry_for_model',
+  :locals => {
+    :record_type => Activity,
+    :record_underscored_name => :activities
+  }
+%>
+
+        </div>
+        <div class="TabbedPanelsContent">
+
+<%= render :partial => 'shared/data_entry_for_model',
+  :locals => {
+    :record_type => Project,
+    :record_underscored_name => :projects
+  }
+%>
+
+       </div>
+
+       <div class="TabbedPanelsContent">
+
+this is a place where all Funding Flows
+
+      </div>
+
+     <div class="TabbedPanelsContent">
+
+this is a place where all Review and Submit
+
+    </div>
+
+
+
+      </div>
+    </div>
+
