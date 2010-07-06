@@ -1,4 +1,4 @@
-# This file is auto-generated from the current state of the database. Instead of editing this file,
+# This file is auto-generated from the current state of the database. Instead of editing this file, 
 # please use the migrations feature of Active Record to incrementally modify your database, and
 # then regenerate this schema definition.
 #
@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100628152528) do
+ActiveRecord::Schema.define(:version => 20100705152911) do
 
   create_table "activities", :force => true do |t|
     t.string   "name"
@@ -31,6 +31,11 @@ ActiveRecord::Schema.define(:version => 20100628152528) do
   create_table "activities_projects", :id => false, :force => true do |t|
     t.integer "project_id"
     t.integer "activity_id"
+  end
+
+  create_table "assignments", :force => true do |t|
+    t.integer "user_id"
+    t.integer "role_id"
   end
 
   create_table "codes", :force => true do |t|
@@ -137,6 +142,12 @@ ActiveRecord::Schema.define(:version => 20100628152528) do
     t.decimal  "expected_total"
   end
 
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
@@ -157,8 +168,6 @@ ActiveRecord::Schema.define(:version => 20100628152528) do
     t.datetime "updated_at"
   end
 
-
-
   create_table "valid_for_next_types", :id => false, :force => true do |t|
     t.integer  "code_id_parent"
     t.integer  "code_id_child"
@@ -167,4 +176,3 @@ ActiveRecord::Schema.define(:version => 20100628152528) do
   end
 
 end
-

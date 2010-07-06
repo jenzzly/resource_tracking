@@ -10,7 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :funding_flow, :active_scaffold => true
 
 
-  map.resources :users
+  map.resources :users, :active_scaffold => true
   map.login 'login', :controller => 'user_sessions', :action => 'new'
   map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'
   map.resources :user_sessions
@@ -28,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   map.static_page ':page', :controller => 'static_page', :action => 'show', :page => Regexp.new(StaticPageController::PAGES.join('|'))
 
   map.ngo_dashboard 'ngo_dashboard', :controller => 'static_page', :action => 'show', :page => 'ngo_dashboard'
+  map.ngo_dashboard 'admin_dashboard', :controller => 'static_page', :action => 'show', :page => 'admin_dashboard'
 
   # The priority is based upon order of creation: first created -> highest priority.
 

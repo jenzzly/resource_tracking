@@ -1,30 +1,34 @@
 class UsersController < ApplicationController
-		
-  def new  
-    @user = User.new  
-  end  
-  
-  def create  
-    @user = User.new(params[:user])  
- 	if @user.save  
-      flash[:notice] = "Registration successful."  
-      redirect_to root_url  
-    else  
-      render :action => 'new'  
-    end  
-  end  
-  
-  def edit  
-  @user = current_user  
-  end  
-  
-  def update  
-  @user = current_user  
-  if @user.update_attributes(params[:user])  
-    flash[:notice] = "Successfully updated profile."  
-    redirect_to root_url  
-    else  
-      render :action => 'edit'  
-    end  
-  end  
+  @@shown_columns = [:username, :email,   :password, :password_confirmation, :roles]
+  @@create_columns = [:username, :email,  :password, :password_confirmation, :roles]
+
+
+  def self.create_columns
+    @@create_columns
+  end
+
+  active_scaffold :user do |config|
+    config.columns =  @@shown_columns
+    list.sorting = {:username => 'DESC'}
+    #config.nested.add_link("User", [:users])
+    config.columns[:roles].form_ui = :select
+    config.columns[:roles].label = "roles"
+
+  end
+
+  record_select :per_page => 20, :search_on => 'name', :order_by => "name ASC"
+
+
+
+  def to_label
+    @s="User: "
+    if name.nil? || name.empty?
+      @s+"<No Name>"
+    else
+      @s+name
+    end
+  end
+
+
 end
+

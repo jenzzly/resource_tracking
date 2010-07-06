@@ -2,7 +2,7 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 # Examples:
-#   
+#
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Major.create(:name => 'Daley', :city => cities.first)
 
@@ -19,7 +19,7 @@ def seed_model_help_from_yaml doc
   end
 end
 
-def seed_model_and_field_help  attribs 
+def seed_model_and_field_help  attribs
   model_help=ModelHelp.find_or_create_by_model_name attribs["model_name"]
   model_help.update_attributes attribs
   seed_field_help_from_yaml model_help
@@ -52,3 +52,8 @@ end
 %w[ self ].each do |ngo|
   Ngo.find_or_create_by_name ngo
 end
+
+%w[ Admin User Guest].each do |roles|
+ Role.find_or_create_by_name roles
+end
+

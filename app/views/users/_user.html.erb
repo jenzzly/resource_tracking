@@ -1,7 +1,7 @@
 <% form_for @user do |form| %>
 <%= form.error_messages %>
 <table style="text-align: left; width: 20%;" border="0" cellpadding="2"
-cellspacing="2">
+cellspacing="2" class="formList">
 <tbody>
 <tr>
 <td style="vertical-align: top;"><%= form.label :username, "Username" %>
@@ -25,6 +25,12 @@ cellspacing="2">
 <td style="vertical-align: top;"><%= form.label :password_confirmation, "Password confirmation" %>
 </td>
 <td style="vertical-align: top;"> <%= form.password_field :password_confirmation %>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><%= form.label :roles, "Roles" %>
+</td>
+<td style="vertical-align: top;"> <%= form.select :roles,["Admin","User","Guest"] %>
 </td>
 </tr>
 <tr>
