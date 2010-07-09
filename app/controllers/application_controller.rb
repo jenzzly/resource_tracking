@@ -6,7 +6,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
+
   filter_parameter_logging :password
+
+
 
   include ApplicationHelper
 
@@ -91,6 +94,9 @@ class ApplicationController < ActionController::Base
 
 
   private
+
+  #before_filter { |c| Authorization.current_user = c.current_user }
+
   def current_user_session
   return @current_user_session if defined?(@current_user_session)
   @current_user_session = UserSession.find

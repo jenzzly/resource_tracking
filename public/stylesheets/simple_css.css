@@ -7,7 +7,7 @@
 #content { float: left; margin-right: 10px; width: 770px; margin-right: 0;  auto;}
 #bottom { width: 950px; margin: 0 auto; }
 #footer { float: center; margin-right: 10px; margin-right: 0; width: 940px; }
-#user{ float: left; background-color: #ff6600;
+#user{ float: left; background-color: rgb(234,90,30);
     -moz-border-radius:10px;
     -webkit-border-radius: 10px;
      }

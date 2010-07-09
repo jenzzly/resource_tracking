@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
 
-  before_filter :require_user
+
 
 
   @@shown_columns = [:name, :description,  :expected_total]

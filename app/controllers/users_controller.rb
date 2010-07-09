@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+
+
   @@shown_columns = [:username, :email,   :password, :password_confirmation, :roles]
   @@create_columns = [:username, :email,  :password, :password_confirmation, :roles]
 
@@ -16,19 +19,17 @@ class UsersController < ApplicationController
 
   end
 
-  record_select :per_page => 20, :search_on => 'name', :order_by => "name ASC"
+  record_select :per_page => 20, :search_on => 'username', :order_by => "username ASC"
 
 
 
   def to_label
     @s="User: "
-    if name.nil? || name.empty?
+    if username.nil? || username.empty?
       @s+"<No Name>"
     else
-      @s+name
+      @s+username
     end
   end
-
-
 end
 
