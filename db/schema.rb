@@ -38,6 +38,11 @@ ActiveRecord::Schema.define(:version => 20100709140356) do
     t.integer "activity_id"
   end
 
+  create_table "assignments", :force => true do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+  end
+
   create_table "code_assignments", :force => true do |t|
     t.integer "activity_id"
     t.integer "code_id"
@@ -150,6 +155,12 @@ ActiveRecord::Schema.define(:version => 20100709140356) do
     t.decimal  "expected_total"
   end
 
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
@@ -159,6 +170,16 @@ ActiveRecord::Schema.define(:version => 20100709140356) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "users", :force => true do |t|
+    t.string   "username"
+    t.string   "email"
+    t.string   "crypted_password"
+    t.string   "password_salt"
+    t.string   "persistence_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "valid_for_next_types", :id => false, :force => true do |t|
     t.integer  "code_id_parent"

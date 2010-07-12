@@ -2,7 +2,7 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 # Examples:
-#   
+#
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Major.create(:name => 'Daley', :city => cities.first)
 
@@ -20,7 +20,7 @@ def seed_model_help_from_yaml doc
   end
 end
 
-def seed_model_and_field_help  attribs 
+def seed_model_and_field_help  attribs
   model_help=ModelHelp.find_or_create_by_model_name attribs["model_name"]
   model_help.update_attributes attribs
   seed_field_help_from_yaml model_help
@@ -45,7 +45,7 @@ Code.delete_all
 FasterCSV.foreach("db/seed_files/codes.csv", :headers=>true) do |row|
   c=nil #Code.first( :conditions => {:id =>row[:id]}) implement update later
   if c.nil?
-    c=Code.new 
+    c=Code.new
     c.id=row["id"]
   end
   #puts row.inspect
@@ -82,7 +82,7 @@ Location.delete_all
 FasterCSV.foreach("db/seed_files/districts.csv", :headers=>true) do |row|
   c=nil #Location.first( :conditions => {:id =>row[:id]}) implement update later
   if c.nil?
-    c=Location.new 
+    c=Location.new
   end
   #puts row.inspect
   %w[short_display].each do |field|
@@ -97,7 +97,7 @@ FasterCSV.foreach("db/seed_files/activity_cost_categories.csv", :headers=>true) 
   c=nil #ActivityCostCategory.first( :conditions => {:id =>row[:id]}) implement update later
   unless row["include"].blank?
     if c.nil?
-      c=ActivityCostCategory.new 
+      c=ActivityCostCategory.new
     end
     #puts row.inspect
     %w[short_display].each do |field|
@@ -115,4 +115,11 @@ end
 
 %w[ self MSH FHI PSI].each do |ngo|
   Ngo.find_or_create_by_name ngo
+
+  %w[ Admin User Guest].each do |roles|
+ Role.find_or_create_by_name roles
+ end
+
+
 end
+

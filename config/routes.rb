@@ -9,20 +9,20 @@ ActionController::Routing::Routes.draw do |map|
     map.create_from_file model+"/create_from_file", :controller => model, :action => "create_from_file"
   end
 
-  map.resources :projects, 
+  map.resources :projects,
     :collection => {:browse => :get},
     :member => {:select => :post}, :active_scaffold => true
 
-  map.resources :organizations, 
+  map.resources :organizations,
     :collection => {:browse => :get},
     :member => {:select => :post}, :active_scaffold => true
 
   map.resources :activities, :active_scaffold => true
-  map.resources :indicators, :active_scaffold => true 
-  map.resources :line_items, :active_scaffold => true 
-  map.resources :comments, :active_scaffold => true 
-  map.resources :field_helps, :active_scaffold => true 
-  map.resources :model_helps, :active_scaffold => true 
+  map.resources :indicators, :active_scaffold => true
+  map.resources :line_items, :active_scaffold => true
+  map.resources :comments, :active_scaffold => true
+  map.resources :field_helps, :active_scaffold => true
+  map.resources :model_helps, :active_scaffold => true
   map.resources :funding_flows, :active_scaffold => true
   map.resources :codes, :active_scaffold => true
   map.resources :activity_cost_categories, :active_scaffold => true
@@ -31,10 +31,17 @@ ActionController::Routing::Routes.draw do |map|
   map.manage_code_assignments 'manage_code_assignments/:activity_id', :controller => 'code_assignments', :action => :manage
   map.update_code_assignments 'update_code_assignments', :controller => 'code_assignments', :action => :update_assignments, :method => :post
 
+  map.resources :users, :active_scaffold => true
+  map.login 'login', :controller => 'user_sessions', :action => 'new'
+  map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'
+  map.resources :user_sessions
+
+
   # DRY up the static page controller
   map.root :controller => 'static_page' #a replacement for public/index.html
   map.static_page ':page', :controller => 'static_page', :action => 'show', :page => Regexp.new(StaticPageController::PAGES.join('|'))
   map.ngo_dashboard 'ngo_dashboard', :controller => 'static_page', :action => 'show', :page => 'ngo_dashboard'
+  map.ngo_dashboard 'admin_dashboard', :controller => 'static_page', :action => 'show', :page => 'admin_dashboard'
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -53,7 +60,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # Sample resource route with sub-resources:
   #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
-  
+
   # Sample resource route with more complex sub-resources
   #   map.resources :products do |products|
   #     products.resources :comments
@@ -74,6 +81,7 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
- # map.connect ':controller/:action/:id'
- # map.connect ':controller/:action/:id.:format'
+  map.connect ':controller/:action/:id'
+  map.connect ':controller/:action/:id.:format'
 end
+
