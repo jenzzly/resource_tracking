@@ -1,7 +1,7 @@
 class StaticPageController < ApplicationController
   before_filter :require_user
 
-  @admin= User.all
+
 
   def show
     render :action => params[:page]
