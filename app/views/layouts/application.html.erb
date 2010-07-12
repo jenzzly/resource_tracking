@@ -8,7 +8,7 @@
   <%= active_scaffold_includes %>
   <!-- Framework CSS -->
   <!--<%= stylesheet_link_tag "screen", :media => "screen, projection" %> -->
-  <%= stylesheet_link_tag "simple_css", :media => "screen, projection" %> 
+  <%= stylesheet_link_tag "simple_css", :media => "screen, projection" %>
   <%= stylesheet_link_tag "css/print", :media => "print" %>
   <!--[if lt IE 8]>
     <%= stylesheet_link_tag "css/ie", :media=>"screen, projection" %>
@@ -26,7 +26,16 @@
       <div id="top_spacer"></div>
       <div class="login round" id="login"  ><font size="4px">
           <ul>
-            <li><%= link_to "logout", "#" %></li>
+            <li>
+            <% if current_user %>
+                <%#= link_to "Edit profile", edit_user_path(:current) %>
+               <li><%= link_to "Logout", logout_path %></li>|
+
+              <% else %>
+                 <li><%= link_to "Log in", login_path %>|</li>
+                <%#= link_to "Register", new_user_path %>
+
+                <% end %></li>
             <li><%= link_to "About", "#" %></li>
             <li><%= link_to "Contact", "#" %></li>
           </ul> <!--| About | News | Contact -->
@@ -45,7 +54,7 @@
             <div id="notice"><%= flash[:notice] %></div>
           <% end %>
 
-          <div class="page_help"> 
+          <div class="page_help">
             <%= yield :page_help %>
           </div>
 
@@ -64,3 +73,4 @@
     </div> <!-- bottom -->
   </body>
 </html>
+

@@ -1,0 +1,28 @@
+<% title "Log in" %>
+
+<% form_for @user_session do |form| %>
+
+<table style="text-align: left; width: 20%;" border="0" cellpadding="2"
+cellspacing="2" id="user" class="formList">
+<tbody>
+<tr>
+<td style="vertical-align: top;"><%= form.label :username, "Username" %>
+</td>
+<td style="vertical-align: top;"> <%= form.text_field :username %>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><%= form.label :password, "Password" %>
+</td>
+<td style="vertical-align: top;"><%= form.password_field :password %>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;">&nbsp;
+</td>
+<td style="vertical-align: top;"><%= form.submit "Submit" %>
+</td>
+</tr>
+ </table>
+<% end %>
+

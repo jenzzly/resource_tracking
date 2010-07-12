@@ -10,9 +10,9 @@ class ApplicationController < ActionController::Base
 
   include ApplicationHelper
 
-  ActiveScaffold.set_defaults do |config| 
+  ActiveScaffold.set_defaults do |config|
     config.ignore_columns.add [:created_at, :updated_at, :lock_version]
-  end 
+  end
 
   def data_entry
     session[:last_data_entry_screen] = request.url
@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
       # session[:last_data_entry_constraints] = active_scaffold_constraints
 
       #set in child controller
-      logger.debug("constraints:"+session[:last_data_entry_constraints].inspect) 
+      logger.debug("constraints:"+session[:last_data_entry_constraints].inspect)
       render :template => 'shared/create_from_file'
     end
     rescue MapFields::InconsistentStateError
@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
 
     # overwrite values with constrained values for this record
     if session[:last_data_entry_constraints]
-      model_hash.merge! session[:last_data_entry_constraints] 
+      model_hash.merge! session[:last_data_entry_constraints]
     end
 
       logger.debug(model_hash.inspect)
@@ -136,4 +136,60 @@ class ApplicationController < ActionController::Base
   def self.set_active_scaffold_column_description column, descr
     active_scaffold_config.columns[column].description = descr
   end
+
+
+  private
+
+  #before_filter { |c| Authorization.current_user = c.current_user }
+
+  def current_user_session
+  return @current_user_session if defined?(@current_user_session)
+  @current_user_session = UserSession.find
+  end
+
+  def current_user
+  @current_user = current_user_session && current_user_session.record
+  end
+
+  helper :all
+  helper_method :current_user_session, :current_user
+  filter_parameter_logging :password, :password_confirmation
+
+  protected
+
+  def current_user_session
+    return @current_user_session if defined?(@current_user_session)
+    @current_user_session = UserSession.find
+  end
+
+  def current_user
+    return @current_user if defined?(@current_user)
+    @current_user = current_user_session && current_user_session.record
+  end
+
+  def require_user
+    unless current_user
+      store_location
+      flash[:notice] = "You must be logged in to access this page"
+      redirect_to new_user_session_url
+      return false
+    end
+  end
+
+  def store_location
+    session[:return_to] = request.request_uri
+  end
+
+  def redirect_back_or_default(default)
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
+  end
+
+
+
+
+
+
+
 end
+

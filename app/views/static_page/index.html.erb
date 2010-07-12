@@ -5,7 +5,10 @@
 <ul>
   <li><%= link_to "Report data as a Donor or NGO", "ngo_dashboard" %></li>
   <li><%= link_to "View and report data as Government", "govt_dashboard" %></li>
+   <%# if can? :update , @admin  %>
   <li><%= link_to "Manage users and codes the database as Government", "admin_dashboard" %></li>
-</ul>
+   <%# end %>
 
+  <li><%= link_to "Logout", logout_path %></li>
+</ul>
 
