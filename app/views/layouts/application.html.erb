@@ -24,28 +24,29 @@
           <%=  image_tag("logo_s.png", :alt => "Rwanda Resource Tracking Database", :class => "round") %>
       </div>
       <div id="top_spacer"></div>
-      <div class="login round" id="login"  ><font size="4px">
+      <div class="login round" id="login"  ><font size="2px">
           <ul>
             <li>
             <% if current_user %>
                 <%#= link_to "Edit profile", edit_user_path(:current) %>
-
+               <li>Hi,<%= h current_user.username %>?</li>
                <li><%= link_to "Logout", logout_path %></li>|
-
               <% else %>
-                 <li><%= link_to "Log in", login_path %>|</li>
+                 <li><%= link_to "Log in", login_path %></li>|
                 <%#= link_to "Register", new_user_path %>
 
                 <% end %></li>
-            <li><%= link_to "About", "#" %></li>
+            <li><%= link_to "About", "#" %></li>|
             <li><%= link_to "Contact", "#" %></li>
           </ul> <!--| About | News | Contact -->
       </font>
       </div>
     </div> <!-- top -->
+
     <div class="clear span-24 doc last" id="main">
         <%= render :partial => 'layouts/top_menu' %>
         <%= render :partial => 'layouts/left_side_bar' %>
+
         <div id="content" class="span-18 last" >
           <div class="breadcrumbs span-18 last" id="breadcrumbs" >
             <%= yield :breadcrumbs %>

@@ -30,11 +30,25 @@ class ProjectsController < ApplicationController
     config.columns[:locations].form_ui = :select
     config.columns[:locations].label = "Districts Worked In"
   end
-  
+
   self.set_active_scaffold_column_descriptions
+
+
 
   def create_from_file
     super @@columns_for_file_upload
   end
 
+
+  def maps
+    self.class.maps(Project)
+  end
+
+  def self.maps (project)
+    [["Project", Project.new]] +
+      (project && !project.new_record? ?
+        [[project.title, project]] : [])
+  end
+
 end
+

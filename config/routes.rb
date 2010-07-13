@@ -42,6 +42,10 @@ ActionController::Routing::Routes.draw do |map|
   map.static_page ':page', :controller => 'static_page', :action => 'show', :page => Regexp.new(StaticPageController::PAGES.join('|'))
   map.ngo_dashboard 'ngo_dashboard', :controller => 'static_page', :action => 'show', :page => 'ngo_dashboard'
   map.ngo_dashboard 'admin_dashboard', :controller => 'static_page', :action => 'show', :page => 'admin_dashboard'
+
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

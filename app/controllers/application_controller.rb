@@ -137,6 +137,10 @@ class ApplicationController < ActionController::Base
     active_scaffold_config.columns[column].description = descr
   end
 
+  hide_action :breadcrumb
+  def breadcrumbs
+    []
+  end
 
   private
 
@@ -184,12 +188,6 @@ class ApplicationController < ActionController::Base
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
   end
-
-
-
-
-
-
 
 end
 
