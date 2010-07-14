@@ -1,6 +1,7 @@
 class ActivitiesController < ApplicationController
 
-   load_and_authorize_resource
+  load_and_authorize_resource
+
 
   @@shown_columns = [:projects, :provider, :name, :description  ]
   @@create_columns = [:projects, :locations, :provider, :name, :description,  :expected_total, :target]
