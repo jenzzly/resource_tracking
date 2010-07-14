@@ -1,4 +1,7 @@
 class ActivitiesController < ApplicationController
+
+   load_and_authorize_resource
+
   @@shown_columns = [:projects, :provider, :name, :description  ]
   @@create_columns = [:projects, :locations, :provider, :name, :description,  :expected_total, :target]
   @@columns_for_file_upload = %w[name description provider expected_total] # TODO fix bug, projects for instance won't work
@@ -54,3 +57,4 @@ class ActivitiesController < ApplicationController
   end
 
 end
+
