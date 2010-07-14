@@ -10,6 +10,11 @@ class ApplicationController < ActionController::Base
 
   include ApplicationHelper
 
+   rescue_from CanCan::AccessDenied do |exception|
+      flash[:error] = "Access denied!"
+      redirect_to root_url
+    end
+
   ActiveScaffold.set_defaults do |config|
     config.ignore_columns.add [:created_at, :updated_at, :lock_version]
   end
@@ -137,10 +142,7 @@ class ApplicationController < ActionController::Base
     active_scaffold_config.columns[column].description = descr
   end
 
-  hide_action :breadcrumb
-  def breadcrumbs
-    []
-  end
+
 
   private
 

@@ -41,15 +41,5 @@ class ProjectsController < ApplicationController
     super @@columns_for_file_upload
   end
 
-  def maps
-    self.class.maps(Project)
-  end
-
-  def self.maps (project)
-    [["Project", Project.new]] +
-      (project && !project.new_record? ?
-        [[project.title, project]] : [])
-  end
-
 end
 
