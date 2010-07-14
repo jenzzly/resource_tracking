@@ -117,9 +117,7 @@ end
   Ngo.find_or_create_by_name ngo
 
   %w[ Admin User Guest].each do |roles|
- Role.find_or_create_by_name roles
- end
-
-
+    Role.find_or_create_by_name roles
+  end
 end
 

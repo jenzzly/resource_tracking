@@ -1,4 +1,6 @@
 class FundingFlowsController < ApplicationController
+  load_and_authorize_resource
+
   @@shown_columns = [:from, :to, :raw_provider,  :project, :committment_to, :spending_to]
   @@create_columns = [:from, :to, :project, :committment_to, :disbursement_to, :spending_to]
   @@columns_for_file_upload = @@shown_columns.map {|c| c.to_s} # TODO extend feature, locations for instance won't work
@@ -6,7 +8,7 @@ class FundingFlowsController < ApplicationController
   map_fields :create_from_file,
     @@columns_for_file_upload,
     :file_field => :file
-  
+
   active_scaffold :funding_flow do |config|
     config.columns =  @@shown_columns
     list.sorting = {:from => 'DESC'}

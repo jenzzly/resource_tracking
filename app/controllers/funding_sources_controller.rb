@@ -1,4 +1,5 @@
 class FundingSourcesController < ApplicationController
+
   @@columns_for_file_upload = %w[from project ]
   map_fields :create_from_file,
     @@columns_for_file_upload,

@@ -1,4 +1,7 @@
 class ProjectsController < ApplicationController
+
+  load_and_authorize_resource
+
   @@shown_columns = [:name, :description,  :expected_total]
   @@create_columns = [:name, :description,  :expected_total, :locations]
   def self.create_columns
@@ -34,11 +37,9 @@ class ProjectsController < ApplicationController
   self.set_active_scaffold_column_descriptions
 
 
-
   def create_from_file
     super @@columns_for_file_upload
   end
-
 
   def maps
     self.class.maps(Project)
