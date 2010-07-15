@@ -2,12 +2,14 @@ class UserSessionsController < ApplicationController
 
 
   def new
-  	 @user_session = UserSession.new
+   @user_session = UserSession.new
   end
-  def create
+
+  def index
   @user_session = UserSession.new(params[:user_session])
    if @user_session.save
     flash[:notice] = "Successfully logged in."
+    @name = current_user.username
     redirect_to root_url
    else
     render :action => 'new'
@@ -21,12 +23,7 @@ class UserSessionsController < ApplicationController
   redirect_to root_url
   end
 
-  #def current_user
-   #return @current_user if defined?(@current_user)
-   #@current_user = current_user_session && current_user_session.record
-   #@current_user ||= User.create!(....) # make guest user
-   #@current_user
-  #end
+
 
 
 end

@@ -7,17 +7,20 @@ class CodeAssignmentsController < ApplicationController
 
   def manage
     @activity = Activity.find(params[:activity_id])
-    #@activity = Activity.first
   end
 
 
   def update_assignments
+    params[:activity].delete(:code_assignment_tree) #until we figure out how to remove the checkbox inputs
+
     @activity = Activity.find(params[:activity_id])
 
     respond_to do |format|
       if @activity.update_attributes(params[:activity])
         flash[:notice] = 'Activity was successfully updated.'
-        format.html { redirect_to(manage_code_assignments_path(params[:activity_id])) }
+
+        format.html { redirect_to(manage_code_assignments_path(@activity)) }
+
         format.xml  { head :ok }
       else
         format.html { render :action => "manage" }
@@ -27,3 +30,4 @@ class CodeAssignmentsController < ApplicationController
   end
 
 end
+

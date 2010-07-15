@@ -10,8 +10,12 @@ module ApplicationHelper
     end
   end
 
-  def maps
-    controller.maps.collect { |title, url| link_to h(title), polymorphic_path(url) } * '—'
+  # Usage: simply invoke title() at the top of each view
+  # E.g.
+  # - title "Home"
+  def title(page_title)
+    content_for(:title) { page_title }
+
   end
 
 end

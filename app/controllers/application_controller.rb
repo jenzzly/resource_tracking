@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
-  filter_parameter_logging :password
+  filter_parameter_logging :password, :password_confirmation
 
   include ApplicationHelper
 
@@ -17,30 +17,28 @@ class ApplicationController < ActionController::Base
 
   ActiveScaffold.set_defaults do |config|
     config.ignore_columns.add [:created_at, :updated_at, :lock_version]
-  end
 
-  def data_entry
-    session[:last_data_entry_screen] = request.url
-    render :template => "#{controller_name}/index"
+    config.actions.exclude :show
+    config.list.empty_field_text = "------"
+    config.list.pagination = false
+    #config.create.persistent = true #add back when make form appear below list
+
   end
 
   def redirect_to_index
-    # this is going to introduce bugs if multiple windows open
-    # couldn't think of
+    #this is going to introduce bugs, couldn't think of
     # better way to do it since AS needs the index method clean
     # for search to work
     # may be able to check params for search request and render list
     # when that is asked for?
-      redirect_to :action => :index
+    redirect_to :action => :index
   end
 
-  #tried to get active_scaffold to not wipe out constraints from
-  #previous view, didn't seem to work
-  #stored it in session[:last_data_entry_screen] in controller
-  #that rendered the view instead
-  # skip_before_filter :register_constraints_with_action_columns,
-  #  :only => :create_from_file
-  def create_from_file attributes
+  #TODO add constraints option that works with key - value for ids
+  # or pass in an object to build the new record off of?
+  # so that file uploads with constraints in the AS view work
+  # as user would expect
+  def create_from_file attributes, constraints={}
     if fields_mapped?
       saved, errors = [], []
       mapped_fields.each do |row|
@@ -52,7 +50,6 @@ class ApplicationController < ActionController::Base
         a = new_from_hash_w_constraints model_hash
         a.save ? saved << a : errors << a
       end
-      #TODO make useful warning for ones that had any errors
       success_msg="Created #{saved.count} of #{errors.count+saved.count} from file successfully"
       logger.debug(success_msg)
       flash[:notice] = success_msg
@@ -60,11 +57,8 @@ class ApplicationController < ActionController::Base
     else
       #user chooses field mapping
 
-      # save so restore above after mapping
-      # session[:last_data_entry_constraints] = active_scaffold_constraints
+      session[:last_data_entry_constraints] = @constraints
 
-      #set in child controller
-      logger.debug("constraints:"+session[:last_data_entry_constraints].inspect)
       render :template => 'shared/create_from_file'
     end
     rescue MapFields::InconsistentStateError
@@ -79,7 +73,7 @@ class ApplicationController < ActionController::Base
 
       logger.debug(model_hash.inspect)
       #logger.debug(active_scaffold_constraints.inspect)
-      logger.debug(session[:last_data_entry_constraints].inspect)
+      #logger.debug(session[:last_data_entry_constraints].inspect)
 
     # overwrite values with constrained values for this record
     if session[:last_data_entry_constraints]
@@ -122,6 +116,8 @@ class ApplicationController < ActionController::Base
   end
 
   def self.set_active_scaffold_column_descriptions
+    #TODO cache descriptions in a class variable?
+    # would be premature optimization
     if respond_to? :active_scaffold_config # or should it error when called badly?
       config = active_scaffold_config
       unless config.nil?

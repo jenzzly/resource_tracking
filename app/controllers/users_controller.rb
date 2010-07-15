@@ -2,8 +2,8 @@ class UsersController < ApplicationController
 
 
 
-  @@shown_columns = [:username, :email,   :password, :password_confirmation, :roles]
-  @@create_columns = [:username, :email,  :password, :password_confirmation, :roles]
+  @@shown_columns = [:username, :email,   :password, :password_confirmation ]
+  @@create_columns = [:username, :email,  :password, :password_confirmation]
 
 
   def self.create_columns
@@ -13,10 +13,6 @@ class UsersController < ApplicationController
   active_scaffold :user do |config|
     config.columns =  @@shown_columns
     list.sorting = {:username => 'DESC'}
-    #config.nested.add_link("User", [:users])
-    config.columns[:roles].form_ui = :select
-    config.columns[:roles].label = "roles"
-
   end
 
   record_select :per_page => 20, :search_on => 'username', :order_by => "username ASC"

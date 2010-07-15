@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(:version => 20100714104134) do
     t.decimal  "expected_total"
     t.integer  "provider_id"
     t.text     "description"
+    t.integer  "other_cost_type_id"
+    t.string   "type"
+    t.string   "start_month"
+    t.string   "end_month"
+    t.decimal  "budget"
+    t.decimal  "spend_q1"
+    t.decimal  "spend_q2"
+    t.decimal  "spend_q3"
+    t.decimal  "spend_q4"
   end
 
   create_table "activities_indicators", :id => false, :force => true do |t|
@@ -47,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20100714104134) do
     t.integer "activity_id"
     t.integer "code_id"
     t.string  "code_type"
+    t.decimal "amount"
   end
 
   create_table "codes", :force => true do |t|
@@ -62,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20100714104134) do
     t.date     "end_date"
     t.integer  "replacement_code_id"
     t.string   "type"
+    t.string   "external_id"
   end
 
   create_table "comments", :force => true do |t|
@@ -91,15 +102,14 @@ ActiveRecord::Schema.define(:version => 20100714104134) do
     t.integer  "organization_id_from"
     t.integer  "organization_id_to"
     t.integer  "project_id"
-    t.decimal  "committment_from"
-    t.decimal  "disbursement_from"
-    t.decimal  "spending_from"
-    t.decimal  "committment_to"
-    t.decimal  "disbursement_to"
-    t.decimal  "spending_to"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "raw_provider"
+    t.decimal  "budget"
+    t.decimal  "spend_q1"
+    t.decimal  "spend_q2"
+    t.decimal  "spend_q3"
+    t.decimal  "spend_q4"
   end
 
   create_table "indicators", :force => true do |t|
@@ -114,8 +124,9 @@ ActiveRecord::Schema.define(:version => 20100714104134) do
     t.integer  "activity_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "amount"
     t.integer  "activity_cost_category_id"
+    t.decimal  "budget"
+    t.decimal  "spend"
   end
 
   create_table "locations", :force => true do |t|
@@ -123,6 +134,11 @@ ActiveRecord::Schema.define(:version => 20100714104134) do
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "locations_organizations", :id => false, :force => true do |t|
+    t.integer "location_id"
+    t.integer "organization_id"
   end
 
   create_table "locations_projects", :id => false, :force => true do |t|
@@ -143,6 +159,7 @@ ActiveRecord::Schema.define(:version => 20100714104134) do
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "raw_type"
   end
 
   create_table "projects", :force => true do |t|
@@ -180,13 +197,6 @@ ActiveRecord::Schema.define(:version => 20100714104134) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "roles_mask"
-  end
-
-  create_table "valid_for_next_types", :id => false, :force => true do |t|
-    t.integer  "code_id_parent"
-    t.integer  "code_id_child"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
 end

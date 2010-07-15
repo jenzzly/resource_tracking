@@ -1,6 +1,10 @@
 class ProjectsController < ApplicationController
 
+
   load_and_authorize_resource
+
+  before_filter :load_help
+
 
   @@shown_columns = [:name, :description,  :expected_total]
   @@create_columns = [:name, :description,  :expected_total, :locations]
@@ -15,7 +19,7 @@ class ProjectsController < ApplicationController
     @@columns_for_file_upload,
     :file_field => :file
 
-  active_scaffold :project do |config|
+  active_scaffold :projects do |config|
     config.columns =  @@shown_columns
     list.sorting = {:name => 'DESC'}
     config.nested.add_link("Activities", [:activities])
@@ -32,13 +36,23 @@ class ProjectsController < ApplicationController
     config.columns[:expected_total].label = "Total Budgeted Amount"
     config.columns[:locations].form_ui = :select
     config.columns[:locations].label = "Districts Worked In"
+
   end
 
-  self.set_active_scaffold_column_descriptions
+
+
 
 
   def create_from_file
     super @@columns_for_file_upload
+  end
+
+  self.set_active_scaffold_column_descriptions
+
+  protected
+
+  def load_help
+    @model_help = ModelHelp.find_by_model_name "Projects"
   end
 
 end
