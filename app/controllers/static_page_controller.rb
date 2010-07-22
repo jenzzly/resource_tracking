@@ -1,5 +1,5 @@
 class StaticPageController < ApplicationController
-  before_filter :require_user
+  #before_filter :require_user
 
   def index
   end

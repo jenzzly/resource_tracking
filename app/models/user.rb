@@ -12,6 +12,12 @@ class User < ActiveRecord::Base
 
   ROLES = %w[admin reporter]
 
+
+  def deliver_password_reset_instructions!
+     reset_persistence_token!
+     Notifier.deliver_password_reset_instructions(self)
+  end
+
   def roles=(roles)
     self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
   end
@@ -30,5 +36,6 @@ class User < ActiveRecord::Base
   def self.organization
     Organization.find_by_name("self")
   end
+
 end
 

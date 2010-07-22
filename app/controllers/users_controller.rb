@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   @@shown_columns = [:username, :email,   :password, :password_confirmation, :roles]
-  @@create_columns = [:username, :email,  :password, :password_confirmation]
+  @@create_columns = [:username, :email,  :password, :password_confirmation ]
 
   def self.create_columns
     @@create_columns

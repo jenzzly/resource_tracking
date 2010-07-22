@@ -1,6 +1,5 @@
 - title "Log in"
 
-
 - form_for @user_session, :url => user_session_path do |form|
   %table#user.formList
     %tbody
@@ -19,3 +18,5 @@
           \&nbsp;
         %td
           = form.submit "Submit"
+          =link_to "I can't access my account",new_password_reset_path
+
