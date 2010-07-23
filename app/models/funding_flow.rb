@@ -1,4 +1,5 @@
 class FundingFlow < ActiveRecord::Base
+  require 'lib/funding_flow_model_helper'
   acts_as_commentable
 
   before_save :authorize_and_set_owner
@@ -13,6 +14,8 @@ class FundingFlow < ActiveRecord::Base
   belongs_to :owner, :class_name => "Organization", :foreign_key => "organization_id_owner"
 
   belongs_to :project
+
+  has_one :data_element, :as =>:data_elementable 
 
   def to_s
     "Flow: #{from.to_s} to #{to.to_s} for #{project.to_s}"
