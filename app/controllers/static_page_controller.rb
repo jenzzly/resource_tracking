@@ -1,7 +1,6 @@
 class StaticPageController < ApplicationController
-  #before_filter :require_user
-
-  
+  before_filter :require_user
+  #authorize_resource
   def index
   end
 
