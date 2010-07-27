@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   @@shown_columns = [:username, :email,   :password, :password_confirmation, :roles]
-  @@create_columns = [:username, :email,  :password, :password_confirmation ]
+  @@create_columns = [:username, :email,  :password, :password_confirmation, :roles]
 
   def self.create_columns
     @@create_columns
@@ -13,6 +13,9 @@ class UsersController < ApplicationController
     config.create.columns = @@create_columns
     config.update.columns = config.create.columns
     list.sorting = { :username => 'DESC' }
+    #config.columns[:roles].form_ui = :select
+    #config.columns[:roles].label = "select Roles"
+
   end
 
   record_select :per_page => 20, :search_on => 'username', :order_by => "username ASC"
