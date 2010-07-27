@@ -8,12 +8,15 @@
 
 %br
 
-%h2 Activity Classification
+%h2
+  = "Activity Classification" #TODO add record type in front nicely
 
 #activity_description
-  - [:name, :expected_total, :description].each do |f|
+  - [:name, :description, :budget, :spend].each do |f|
     %p
-      = "#{f.to_s.humanize.capitalize}: #{@activity.send(f)}" #TODO currency symbol from data request
+      /= label_string(@activity.class, f)+": #{@activity.send(f)}" #why doesn't this work?
+      = "#{f.to_s.humanize.capitalize}: #{@activity.send(f)}" #TODO add currency symbol
+
 
 #activity_classification
   - form_for @activity, :url => update_code_assignments_path, :method => :post do |form|
@@ -22,9 +25,8 @@
     = hidden_field_tag :activity_id, @activity.id
 
     %ul#activity_tree
-      - Code.roots.each do |code|
-        - if [Mtef, Nha, Nasa, Nsp].index(code.class) #TODO move out to model
-          = render :partial => 'code_row', :locals => {:code => code, :form => form}
+      - @activity.valid_roots_for_code_assignment.each  do |code|
+        = render :partial => 'code_row', :locals => {:code => code, :form => form}
     = submit_tag 'Save'
 
   = render :partial => 'shared/data_entry_help' , :locals => {:record_type => CodeAssignment}

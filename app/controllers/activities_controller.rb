@@ -2,7 +2,10 @@ class ActivitiesController < ApplicationController
   authorize_resource
 
   @@shown_columns = [:projects, :provider, :description,  :budget  ]
-  @@create_columns = [:projects, :locations, :provider, :name, :description,  :start_month, :end_month, :beneficiary, :target, :expected_total, :spend_q1, :spend_q2, :spend_q3, :spend_q4, :budget]
+  @@create_columns = [:projects, :locations, :provider, :name, :description,  :start, :end, :beneficiary, :target, :spend, :spend_q1, :spend_q2, :spend_q3, :spend_q4, :budget]
+  def self.create_columns
+    @@create_columns
+  end
   @@columns_for_file_upload = %w[name description provider expected_total] # TODO fix bug, projects for instance won't work
 
   map_fields :create_from_file,
@@ -19,7 +22,7 @@ class ActivitiesController < ApplicationController
       :popup => true,
       :label => "Classify")
 
-    config.nested.add_link("Cost Details", [:lineItems])
+    config.nested.add_link("Cost Categorization", [:lineItems])
     config.columns[:lineItems].association.reverse = :activity
 
     config.nested.add_link("Comments", [:comments])
@@ -33,23 +36,29 @@ class ActivitiesController < ApplicationController
     config.columns[:locations].form_ui = :select
     config.columns[:locations].label = "Districts Worked In"
     #config.columns[:locations].options[:update_column] = [:provider] #not working
-    config.columns[:provider].inplace_edit = :ajax
     config.columns[:provider].form_ui = :select
     config.columns[:provider].association.reverse = :provider_for
     config.columns[:name].inplace_edit = true
     config.columns[:name].label = "Name (Optional)"
     config.columns[:description].inplace_edit = true
-    config.columns[:expected_total].inplace_edit = true
-    config.columns[:expected_total].label = "Total Spend GOR FY 09-10"
     config.columns[:target].label = "Target"
     config.columns[:beneficiary].label = "Beneficiary"
 
-    config.columns[:budget].inplace_edit = true
-    config.columns[:budget].label = "Budget for GOR FY 10-11 (upcoming)"
+    config.columns[:spend].label = "Total Spend GOR FY 09-10"
+    config.columns[:budget].label = "Total Budget GOR FY 10-11"
+    [:spend, :budget].each do |c|
+      config.columns[c].options = quarterly_amount_field_options
+      config.columns[c].inplace_edit = true
+    end
+
+    [:start, :end].each do |c|
+      config.columns[c].label = "#{c.to_s.capitalize} Date"
+    end
     %w[q1 q2 q3 q4].each do |quarter|
       c="spend_"+quarter
       c=c.to_sym
       config.columns[c].inplace_edit = true
+      config.columns[c].options = quarterly_amount_field_options
       config.columns[c].label = "Expenditure in GOR FY 09-10 "+quarter.capitalize
     end
     # add in later version, not part of minimal viable product
@@ -69,9 +78,13 @@ class ActivitiesController < ApplicationController
   def conditions_for_collection
     ["activities.type IS NULL "]
   end
-  
-  def random
 
+  def active_scaffold_block
+    #TODO figure out how to return block for the AS config
+    # so I can subclass then yield this block & block
+    # that changes things for activity so don't have to
+    # have duplicate code w some modifications
   end
+
 end
 

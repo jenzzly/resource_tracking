@@ -1,4 +1,4 @@
-# This file is auto-generated from the current state of the database. Instead of editing this file, 
+# This file is auto-generated from the current state of the database. Instead of editing this file,
 # please use the migrations feature of Active Record to incrementally modify your database, and
 # then regenerate this schema definition.
 #
@@ -9,7 +9,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100720084323) do
+ActiveRecord::Schema.define(:version => 20100727083420) do
+
 
   create_table "abilities", :force => true do |t|
     t.datetime "created_at"
@@ -22,19 +23,18 @@ ActiveRecord::Schema.define(:version => 20100720084323) do
     t.string   "target"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "comments"
-    t.decimal  "expected_total"
     t.integer  "provider_id"
     t.integer  "other_cost_type_id"
     t.text     "description"
     t.string   "type"
-    t.string   "start_month"
-    t.string   "end_month"
     t.decimal  "budget"
     t.decimal  "spend_q1"
     t.decimal  "spend_q2"
     t.decimal  "spend_q3"
     t.decimal  "spend_q4"
+    t.date     "start"
+    t.date     "end"
+    t.decimal  "spend"
   end
 
   create_table "activities_indicators", :id => false, :force => true do |t|
@@ -105,10 +105,11 @@ ActiveRecord::Schema.define(:version => 20100720084323) do
   add_index "data_elements", ["data_response_id"], :name => "index_data_elements_on_data_response_id"
 
   create_table "data_requests", :force => true do |t|
-    t.integer  "organization_id"
+
+    t.integer  "organization_id_requester"
     t.string   "title"
-    t.boolean  "complete",        :default => false
-    t.boolean  "pending_review",  :default => false
+    t.boolean  "complete",                  :default => false
+    t.boolean  "pending_review",            :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -116,9 +117,11 @@ ActiveRecord::Schema.define(:version => 20100720084323) do
   create_table "data_responses", :force => true do |t|
     t.integer  "data_element_id"
     t.integer  "data_request_id"
-    t.boolean  "complete",        :default => false
+    t.boolean  "complete",                  :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "organization_id_responder"
+
   end
 
   add_index "data_responses", ["data_request_id"], :name => "index_data_responses_on_data_request_id"
@@ -138,13 +141,15 @@ ActiveRecord::Schema.define(:version => 20100720084323) do
     t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "raw_provider"
     t.decimal  "budget"
     t.decimal  "spend_q1"
     t.decimal  "spend_q2"
     t.decimal  "spend_q3"
     t.decimal  "spend_q4"
     t.integer  "organization_id_owner"
+    t.text     "organization_text"
+    t.integer  "self_provider_flag",    :default => 0
+    t.decimal  "spend"
   end
 
   create_table "indicators", :force => true do |t|
@@ -156,6 +161,7 @@ ActiveRecord::Schema.define(:version => 20100720084323) do
   end
 
   create_table "line_items", :force => true do |t|
+    t.text     "description"
     t.integer  "activity_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -209,7 +215,9 @@ ActiveRecord::Schema.define(:version => 20100720084323) do
     t.date     "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "expected_total"
+    t.decimal  "budget"
+    t.decimal  "spend"
+    t.decimal  "entire_budget"
   end
 
   create_table "sessions", :force => true do |t|
@@ -231,6 +239,9 @@ ActiveRecord::Schema.define(:version => 20100720084323) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "roles_mask"
+    t.integer  "organization_id"
+    t.integer  "data_response_id_current"
   end
 
 end
+

@@ -5,13 +5,19 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
+  #around_filter :access_session_variable 
+  #allows access to session variable from model
+
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password, :password_confirmation
 
   include ApplicationHelper
 
   rescue_from CanCan::AccessDenied do |exception|
-      render :text => "Access denied!"
+      render :text => "Sorry, you do not have permission for this action or you have been logged out.
+      You may login at #{root_url} or use the contact link at
+      the bottom of the homepage to contact an administrator, if you
+      think this message is being shown in error."
       # TODO render a template / action without the layout with login link & help msg
 
       # redirect caused infinite loop, could be that home page had security on it
@@ -26,6 +32,8 @@ class ApplicationController < ActionController::Base
     config.list.pagination = false
     #config.create.persistent = true #add back when make form appear below list
   end
+
+  before_filter :load_help
 
   def redirect_to_index
     redirect_to :action => :index
@@ -49,7 +57,7 @@ class ApplicationController < ActionController::Base
       redirect_to_index
     else
       #user chooses field mapping
-      session[:last_data_entry_constraints] = @constraints
+      session[:last_data_entry_constraints] = constraints
 
       render :template => 'shared/create_from_file'
     end
@@ -69,7 +77,7 @@ class ApplicationController < ActionController::Base
       #logger.debug(session[:last_data_entry_constraints].inspect)
 
     # overwrite values with constrained values for this record
-    if constraints.try(:empty?)
+    unless constraints.nil? || constraints.empty?
       model_hash.merge! constraints
     end
 
@@ -120,13 +128,12 @@ class ApplicationController < ActionController::Base
   #TODO now that we're loading model help in the controller, maybe ew
   # pass in a help object here from the controller instead
   # of doing the find here?
-  def self.set_active_scaffold_column_descriptions
+  def self.set_active_scaffold_column_descriptions help
     #TODO cache descriptions in a class variable?
     # would be premature optimization
     if respond_to? :active_scaffold_config # or should it error when called badly?
       config = active_scaffold_config
       unless config.nil?
-        help = ModelHelp.find_by_model_name(config.model.to_s)
         help = help.field_help if help
         if help
           #TODO join with ruby array methods or something better
@@ -143,7 +150,24 @@ class ApplicationController < ActionController::Base
     active_scaffold_config.columns[column].description = descr
   end
 
+  def self.label_for column
+    if respond_to? :active_scaffold_config
+      active_scaffold_config.columns[column].label
+    end
+  end
+
+  def self.description_for column
+    if respond_to? :active_scaffold_config
+      active_scaffold_config.columns[column].description
+    end
+  end
+
   helper_method :current_user
+
+  before_filter do |c_instance|
+    User.current_user = c_instance.send(:current_user)
+  end
+
   private
 
   #before_filter { |c| Authorization.current_user = c.current_user }
@@ -178,5 +202,51 @@ class ApplicationController < ActionController::Base
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
   end
+
+  # sets AS field help that shows up in create form and on columns
+  # @model_help used in views/shared/_data_entry_help
+  def load_help
+    @model_help = help_model
+    my_AS_controller.set_active_scaffold_column_descriptions @model_help
+  end
+
+  # can override this in subclass for different help
+  def help_model
+    ModelHelp.find_by_model_name self.controller_model_class.to_s
+  end
+
+  # TODO make able to override this later to push help
+  # into the scaffold, right now will have these
+  # overwritten when the scaffold controller loads it's help
+  def my_AS_controller
+    self.class
+  end
+
+  # methods to help with setting config.columns, etc
+  # TODO move into a module
+  def self.quarterly_amount_field_options
+    {:size => 15 }
+  end
+
+  #def access_session_variable
+  #  klasses = [ActiveRecord::Base, ActiveRecord::Base.class]
+  #  methods = ["session", "cookies", "params", "request"]
+
+  #  methods.each do |method|
+  #    instance_variable = instance_variable_get(:"@_#{method}")
+  #    klasses.each do |klass|
+  #      klass.send(:define_method, method, proc { instance_variable })
+  #    end
+  #  end
+
+  #  yield
+
+  #  methods.each do |method|
+  #    klasses.each do |klass|
+  #      klass.send :remove_method, method
+  #    end
+  #  end
+  #end
+
 
 end

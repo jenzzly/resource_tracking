@@ -1,12 +1,14 @@
 ActionController::Routing::Routes.draw do |map|
 
-  map.coding "activities/code", :controller => 'activities', :action => 'code'
-  map.coding "activities/random", :controller => 'activities', :action => 'random'
+  map.data_response_start "data_responses/:id", :controller => 'data_responses', :action => 'start'
+
+  map.activity_coding "activities/code", :controller => 'activities', :action => 'code'
+  map.other_cost_coding "other_costs/code", :controller => 'other_costs', :action => 'code'
   map.data_requests 'data_requests', :controller => 'data_requests', :action => :index #until we flesh out this model
 
   map.funding_sources_data_entry "funding_sources", :controller => 'funding_sources', :action => 'index'
   map.providers_data_entry "providers", :controller => 'providers', :action => 'index'
-  %w[activities funding_flows projects providers funding_sources model_helps comments other_costs].each do |model|
+  %w[activities funding_flows projects providers funding_sources model_helps comments other_costs organization users].each do |model|
     map.create_from_file model+"/create_from_file", :controller => model, :action => "create_from_file"
   end
 
@@ -41,13 +43,14 @@ ActionController::Routing::Routes.draw do |map|
   map.manage_code_assignments 'manage_code_assignments/:activity_id', :controller => 'code_assignments', :action => :manage
   map.update_code_assignments 'update_code_assignments', :controller => 'code_assignments', :action => :update_assignments, :method => :post
 
+  map.news "news", :controller => 'static_page', :action => "news"
+  map.about "about", :controller => 'static_page', :action => "about"
   map.static_page ':page',
                   :controller => 'static_page',
                   :action => 'show',
-                  :page => Regexp.new(%w[about contact ngo_dashboard govt_dashboard admin_dashboard].join('|'))
+                  :page => Regexp.new(%w[about contact reporter_dashboard admin_dashboard about news].join('|'))
 
-  #map.root :controller => 'static_page', :action => 'index' # a replacement for public/index.html
-  map.root :controller => 'unauthenticated_static_page', :action => 'index'
+  map.root :controller => 'static_page', :action => 'index' # a replacement for public/index.html
 
   #TODO remove these
   #map.connect ':controller/:action/:id'

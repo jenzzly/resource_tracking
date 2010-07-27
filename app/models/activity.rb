@@ -1,5 +1,9 @@
+require 'lib/ActAsDataElement'
+
 class Activity < ActiveRecord::Base
   acts_as_commentable
+  include ActAsDataElement
+  configure_act_as_data_element
   has_and_belongs_to_many :projects
   has_and_belongs_to_many :indicators
   has_and_belongs_to_many :locations
@@ -12,9 +16,15 @@ class Activity < ActiveRecord::Base
   attr_accessor :code_assignment_amounts
   after_save :update_code_assignments
 
+  # delegate :providers, :to => :projects
   def valid_providers
     #TODO use delegates_to
     projects.valid_providers
+  end
+
+  def valid_roots_for_code_assignment
+    @@valid_root_types = [Mtef, Nha, Nasa, Nsp]
+    Code.roots.reject { |r| ! @@valid_root_types.include? r.class }
   end
 
   private

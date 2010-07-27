@@ -1,11 +1,18 @@
 require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
- 
+
+  should have_many :data_responses
+  should have_many :users
+#  test "creates data responses on save" do
+#    d=DataRequest.create!
+#    o=Organization.create! :name => "test"
+#    found = false
+#    d.data_responses.each do |r|
+#      found = true if r.responding_organization == o
+#    end
+#    assert found
+#  end
   test "providers for" do
     o=Organization.new(:name => "test")
     o.save
@@ -49,25 +56,23 @@ class OrganizationTest < ActiveSupport::TestCase
     assert o.in_flows == [f]
   end
   test "has many projects donated to" do
-    o=Organization.new
-    o.save
+    o=Organization.create!
     assert o.donor_for == []
-    f=o.donor_for.create
+    f=o.donor_for.create!(:name => "proj1")
     assert Project.count == 1
-    o.save
-    o=Organization.find(o.id)
-    f=Project.find(f.id)
+    o.save!
+    o = Organization.find(o.id)
+    f = Project.find(f.id)
     assert o.donor_for == [f]
   end
   test "has many projects it implements" do
-    o=Organization.new
-    o.save
+    o = Organization.create!
     assert o.implementor_for == []
-    f=o.implementor_for.create
+    f = o.implementor_for.create!(:name => "proj1")
     assert Project.count == 1
-    o.save
-    o=Organization.find(o.id)
-    f=Project.find(f.id)
+    o.save!
+    o = Organization.find(o.id)
+    f = Project.find(f.id)
     assert o.implementor_for == [f]
   end
 end
