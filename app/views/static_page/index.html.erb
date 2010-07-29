@@ -1,64 +1,26 @@
-<html >
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<script type="text/javascript" src="javascripts/jquery.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-
-	$(".btn-slide").click(function(){
-		$("#panel").slideToggle("slow");
-		$(this).toggleClass("active"); return false;
-	});
-
-
-});
-</script>
-
-<style type="text/css">
-
-a:focus {
-	outline: none;
-}
-#panel {
-	background: #754c24;
-	height: 200px;
-	display: none;
-}
-.slide {
-	margin: 0;
-	padding: 0;
-	border-top: solid 4px #422410;
-	background: url(images/btn-slide.gif) no-repeat center top;
-}
-.btn-slide {
-	background: url(images/white-arrow.gif) no-repeat right -50px;
-	text-align: center;
-	width: 144px;
-	height: 31px;
-	padding: 10px 10px 0 0;
-	margin: 0 auto;
-	display: block;
-	font: bold 120%/100% Arial, Helvetica, sans-serif;
-	color: #fff;
-	text-decoration: none;
-}
-.active {
-	background-position: right 12px;
-}
-</style>
-</head>
-
-<body>
 
 <script>
 $('tabs').hide();
 </script>
 
-<table width="70%">
-<tr><td>
-	<h2>Welcome to the Resource Tracking Database!</h2>
+<script type="text/javascript">
+      function toggleDiv()
+      {
+        if (document.getElementById("myDivBox").style.display == "block")
+        {
+          document.getElementById("myDivBox").style.display = "none";
+        }
+        else
+        {
+          document.getElementById("myDivBox").style.display = "block";
+        }
+      }
+</script>
+
+<table >
+<tr valign="top"><td>
+<h2>Welcome to the Resource Tracking Database!</h2>
 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="480" height="190">
   <param name="movie" value="slide.swf" />
   <param name="quality" value="high" />
@@ -73,16 +35,32 @@ $('tabs').hide();
          allowFullScreen="false"
          pluginspage="http://www.macromedia.com/go/getflashplayer" />
 </object>
-</td>
-<td>
-<div id="panel">
-	<!-- you can put content here -->
-</div>
+  </td>
+<td width="15">&nbsp;</td>
+  <td  width="480" height="190" >
 
-<p class="slide"><a href="#" class="btn-slide">Slide Panel</a></p>
-</td>
-<tr>
-<table>
-</body>
-</html>
+
+<fieldset>
+			<legend><span><a href="#" onclick="toggleDiv()">Login</a></span></legend>
+  <h2>
+  <div id="myDivBox" style="display:none;">
+   <table ><tr><td>
+   Username</td><td>
+    <input type="text" size="14px"></td><tr><td>
+   Password</td><td>
+   <input type="text" size="14px"></td>
+   </tr>
+   <tr>
+   <td>
+  </td>
+   </tr>
+   </table>
+  </div>
+
+  </h2>
+</fieldset>
+
+ </td>
+ </tr>
+ </table>
 
